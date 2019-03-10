@@ -2,29 +2,29 @@ import math
 import matplotlib.pyplot as plt
 
 
-def predict(sample, coef):
-    yh = coef[0]
+def predict(sample, params):
+    yh = params[0]
     for i in range(len(sample)):
-        yh += coef[i+1] * sample[i]
+        yh += params[i+1] * sample[i]
     return 1.0 / (1.0 + math.exp(-yh))
 
 
-def sgd(coef, samples, y, l_rate):
+def sgd(params, samples, y, l_rate):
     for i in range(len(samples)):
-        yh = predict(samples[i], coef)
+        yh = predict(samples[i], params)
         error = y[i] - yh
-        coef[0] = coef[0] + l_rate * error * yh * (1.0 - yh)
+        params[0] = params[0] + l_rate * error * yh * (1.0 - yh)
         for j in range(len(samples[i])):
-            coef[j+1] = coef[j+1] + l_rate * error * yh * (1.0 - yh) * samples[i][j]
-    return coef
+            params[j+1] = params[j+1] + l_rate * error * yh * (1.0 - yh) * samples[i][j]
+    return params
 
 
-def get_error(coef, samples, y):
+def get_error(params, samples, y):
     error_acum = 0
     corr_pred = 0
     n = len(samples)
     for i in range(n):
-        yh = predict(samples[i], coef)
+        yh = predict(samples[i], params)
         yhr = round(yh)
         if yhr == y[i]:
             corr_pred += 1
@@ -46,26 +46,26 @@ def graph_info(errors, precision):
     plt.show()
 
 
-def logistic_regression_train(samples, y, coef):
+def logistic_regression_train(samples, y, params):
     errors, precision = list(), list()
     l_rate = 0.03
     epochs = 1
     while True:
-        oldcoef = list(coef)
-        coef = sgd(coef, samples, y, l_rate)
-        err = get_error(coef, samples, y)
+        old_params = list(params)
+        params = sgd(params, samples, y, l_rate)
+        err = get_error(params, samples, y)
         errors.append(err[0])
         precision.append(err[1])
-        if oldcoef == coef or epochs == 1500:
-            print('Final parameters: b and m1')
-            print(coef)
+        if old_params == params or epochs == 1500:
+            print('Final parameters')
+            print(params)
             print('Final error with decimal predictions:')
             print(errors[-1])
             print('Precision with rounded predictions:')
             print(precision[-1])
             #graph_info(errors, precision)
         epochs += 1
-    return coef
+    return params
 
 
 def logistic_regression_test(samples, y, params):
@@ -83,7 +83,7 @@ def logistic_regression_test(samples, y, params):
 def main():
     train_samples = [[12],[23],[15],[70],[85],[7],[25]] #value of x for each sample(x represents an age)
     train_y = [0,1,0,1,1,0,1] #Classification for each age in the sample, 0 = underage and 1 = adult
-    params = [0.0]+[0.0 for i in range(len(train_samples[0]))]  #first coef is the bias, the rest are the parameters for each x, there is only 1 parameter because each sample has only one attribute
+    params = [0.0]+[0.0 for i in range(len(train_samples[0]))]  #first params is the bias, the rest are the parameters for each x, there is only 1 parameter because each sample has only one attribute
     final_params = logistic_regression_train(train_samples, train_y, params)
     test_samples = list()
     test_y = list()
