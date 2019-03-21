@@ -108,7 +108,7 @@ def logistic_regression_train(samples, y, params):
             print(errors[-1])
             print('Precision with rounded predictions:')
             print(precision[-1])
-            #graph_info(errors, precision)
+            graph_info(errors, precision)
             break
         epochs += 1
     return params
