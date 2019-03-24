@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 
 '''
 PROBAR CON Y SIN FEATURE Fare
-PROBAR CON Y SIN FEATURE class
 PROBAR PONIENDO MISSING VALUES COMO NONE Y COMO LA MEDIA DEL RESTO
 '''
 
@@ -28,6 +27,8 @@ def map_iter(func, row, ind_list):
 
 #Prepare the dataset to get rid of the non-required information
 #and separate the features from the labels
+#There are 2 ways of preparing the data, if  train=True then we get all the sample attributes and the class
+#If train = False that means we are testing, so we get all the sample attributes and the PassengerId.
 def prepare_titanic_dataset(dataset, train):
     n = len(dataset)
     if train:
@@ -44,7 +45,8 @@ def prepare_titanic_dataset(dataset, train):
             dataset[i] = dataset[i][:2] + dataset[i][3:7]
     return dataset[1:]
 
-
+#To make predictions by first solving the linear function, when we get y which is our hypothesis
+#We use the sigmoid function to get a value strictly from 0 to 1 in order to make the classification
 def predict(sample, params):
     yh = params[0]
     for i in range(len(sample)):
@@ -52,7 +54,8 @@ def predict(sample, params):
             yh += params[i+1] * sample[i]
     return 1.0 / (1.0 + math.exp(-yh))
 
-
+#In order to update the params we iterate through all samples and all attributes
+#params[0] which is the bias is not multipled by any atribute because it doesn´t affect them directly
 def sgd(params, samples, y, l_rate):
     for i in range(len(samples)):
         yh = predict(samples[i], params)
@@ -63,7 +66,9 @@ def sgd(params, samples, y, l_rate):
                 params[j+1] = params[j+1] + l_rate * error * yh * (1.0 - yh) * samples[i][j]
     return params
 
-
+#This function is used to get 2 important facts, the accumulated error of all samples
+#and also the accuracy of the model because it rounds each prediction and compares it
+# with the real class, so that way we can know how many predictions where correct.
 def get_error(params, samples, y):
     error_acum = 0
     corr_pred = 0
@@ -84,13 +89,15 @@ def get_error(params, samples, y):
         error_acum += error
     return [(error_acum / n) * 100, (corr_pred / n) * 100]
 
-
+#Graph all the acummulated errors and accuracy over time
 def graph_info(error_list, precision_list):
     plt.plot(precision_list)
     plt.plot(error_list)
     plt.show()
 
-
+#This is the core function to train the model, for a specific amount of epochs, sgd function
+#will be called to update the parameters to make better predictions, each time the parameters
+#are obtained we get the error and accuracy to graph them, we return the final parameters at the end
 def logistic_regression_train(samples, y, params):
     errors, precision = list(), list()
     l_rate = 0.0001
@@ -113,7 +120,7 @@ def logistic_regression_train(samples, y, params):
         epochs += 1
     return params
 
-
+#this function is used to test our model, so it returns the class predictions that it made for each sample
 def titanic_test(samples, params):
     classifications = list()
     for sample in samples:
@@ -121,14 +128,16 @@ def titanic_test(samples, params):
         classifications.append(yh)
     return classifications
 
-
+#Kaggle expects a csv file with PassengerId, class in order to evaluate our model
 def generate_csv(ids, classifications):
     with open("results.csv", "w") as file_csv:
         print('PassengerId,Survived', file=file_csv)
         for i in range(len(classifications)):
             print(str(ids[i]) + ',' + str(classifications[i]), file=file_csv)
 
-
+#Main function, here we get the training dataset, prepare it and train our model.
+#Then we use the final parameters to test our model with the test dataset
+#At the end a csv file is generated to upload it to kaggle
 if __name__ == '__main__':
     filename = "train.csv"
     train_dataset = prepare_titanic_dataset(load_csv(filename), True)
