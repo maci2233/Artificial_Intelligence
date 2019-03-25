@@ -135,7 +135,7 @@ def logistic_regression_train(samples, y, params):
             print(errors[-1])
             print('Precision with rounded predictions:')
             print(accuracy[-1])
-            #graph_info(errors, accuracy)
+            graph_info(errors, accuracy)
             break
         epochs += 1
     return params
@@ -169,6 +169,7 @@ def cross_validation(dataset, folds):
 
 
 #this function is used to test our model, so it returns the class predictions that it made for each sample
+#using the final parameters obtained in the training.
 def test_model(dataset):
     train_dataset = prepare_titanic_dataset(dataset, True)
     train_samples, train_y = list(), list()
@@ -204,7 +205,7 @@ def generate_csv(ids, classifications):
 if __name__ == '__main__':
     filename = "train.csv"
     dataset = load_csv(filename)
-    validate = True
+    validate = False
     if validate:
         cross_validation(dataset, folds=10)
     else:
