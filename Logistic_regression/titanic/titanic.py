@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 '''
 PROBAR CON Y SIN FEATURE Fare
 PROBAR PONIENDO MISSING VALUES COMO NONE Y COMO LA MEDIA DEL RESTO
+PROBAR CON one-hot-encoding with passenger class
 '''
 
 #Open the csv file and return it as a list
@@ -205,7 +206,7 @@ def generate_csv(ids, classifications):
 if __name__ == '__main__':
     filename = "train.csv"
     dataset = load_csv(filename)
-    validate = False
+    validate = True
     if validate:
         cross_validation(dataset, folds=10)
     else:

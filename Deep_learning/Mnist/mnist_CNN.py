@@ -32,7 +32,7 @@ train_labels = train.ix[:,0].values.astype('int32')
 #since there are no labels.
 x_test = test.values.astype('float32')/255.0
 
-#So far every sample is in 1D, which is not the shape that keras expects, wre are going to change it to a 28x28x1 so that 
+#So far every sample is in 1D, which is not the shape that keras expects, wre are going to change it to a 28x28x1 so that
 #keras can make the convolutions, we do not need more than 2 Dimensions because the pixels contain grayscale values.
 train_images = x_train.reshape(x_train.shape[0], 28, 28, 1)
 test_images = x_test.reshape(x_test.shape[0], 28, 28, 1)
@@ -68,8 +68,5 @@ predicted_classes = model.predict_classes(test_images)
 #Based on the predictions we can use pandas to generate a csv with the format that kaggles asks us for
 submissions=pd.DataFrame({"ImageId": list(range(1,len(predicted_classes)+1)),
                          "Label": predicted_classes})
+
 submissions.to_csv("results.csv", index=False, header=True)
-
-
-
-
