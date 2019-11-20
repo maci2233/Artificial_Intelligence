@@ -27,6 +27,7 @@ At the end we will have the following classes represented with numerical values:
 ### Traning and Test sets
 
 The samples inside the data.csv will help us train our model, but the problem is that we have no players available for testing and checking how good we can classify a set of never seen players, to solve this, we will split the dataset in two different csv files
+
 1. fifa_train.csv will have 90% of the players that will be used to train the model
 2. fifa_test.csv will have the remaining 10% that will be used for testing
 
@@ -66,7 +67,7 @@ There are a lot more things that can be modified but we will play around with on
 
 All the results are going to be stored and then we are going to choose the best models according to 2 different categories:
 1. Accuracy: We want to know which models performed better on average against unseen data
-2: Overfit Score: We will check this value to know which models have similar accuracies between the training and validation sets. In order to get this value for each model we just do this operation: ((sum of training_scores) - (sum of validation_scores)) / (number of folds) this way we will know on average how close the training accuracy is from the validation accuracy.
+2. Overfit Score: We will check this value to know which models have similar accuracies between the training and validation sets. In order to get this value for each model we just do this operation: ((sum of training_scores) - (sum of validation_scores)) / (number of folds) this way we will know on average how close the training accuracy is from the validation accuracy.
 
 These are the results obtained:
 
@@ -95,7 +96,7 @@ The testing is pretty straightforward. For each of the 3 decision trees that we 
 
 Test accuracy results:
 
-![]()
+![Figure 4](https://github.com/maci2233/Artificial_Intelligence/blob/master/machine_learning/Classification/Fifa_positions/decision_tree_tests.PNG)
 
 As we can appreciate, basically we can achieve an 85% accuracy using a decision tree. Can this number go higher using a different approach?
 
@@ -115,6 +116,7 @@ Our final model has 250 decision trees that are trained using 45% of the trainin
 
 Test accuracy results:
 
-![]()
+![Figure 5](https://github.com/maci2233/Artificial_Intelligence/blob/master/machine_learning/Classification/Fifa_positions/bagging_tests.PNG)
 
+We just achieved an 88% accuracy with the bagging classifier, which is higher than the individual decision tree. Depending on the problem, sometimes one approach is better than the other so it is a good idea to try several models (if time allows it) and nost just stick to one and compare their results.
 
