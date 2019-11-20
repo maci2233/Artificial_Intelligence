@@ -79,5 +79,42 @@ As we can see, there are 3 Decision trees that appear in both categories:
 
 This is the result obtained doing cross-validation for one of these decision trees:
 
+![Figure 3](https://github.com/maci2233/Artificial_Intelligence/blob/master/machine_learning/Classification/Fifa_positions/CV_MD7Cg.png)
+
+We can see how the training and validation accuracies are way closer than the results obtained in the other Decision tree.<br>
+The average accuracy for the validation set is also higher (around 84%) because the fact we are limiting the max_depth of the model allows it to generalize better and not just learn the whole training samples. 
+
+### Saving the models
+
+We ended up with 3 final models that will be used for testing, we are going to save them and then make the testing in a separate file.
+The reason for doing this is simple, training takes time, so having to train the models each time we want to test them makes no sense at all since it is very time consuming
+
+### Testing the decision tree
+
+The testing is pretty straightforward. For each of the 3 decision trees that we chose at the end, we will make a prediction for each sample in the test set, then we will compare the predicted class with the real class and get the test accuracy to see how well the models perform
+
+Test accuracy results:
+
 ![]()
-PENDIENTE
+
+As we can appreciate, basically we can achieve an 85% accuracy using a decision tree. Can this number go higher using a different approach?
+
+### Second Classifier: Bagging Classifier
+
+A bagging classifier is a type of ensemble method, its purpose is to train several classifiers, each of them with a smaller random portion of the dataset and then for each sample, the final prediction of its class is determined based on a voting system, so if there are 3 classifiers and 2 of them vote for class A while the other votes for class B, then the final predicion is A.
+
+Ensemble methods can achieve higher accuracies than a single model, since they have several models training on different samples and different features of the training dataset, at the end there are a lot of models that may not be the best individually, but since each of them recognizes some simple patterns, once we do the voting for each sample, the chances of outperforming the decision tree that we just trained will be high.
+
+### Repeating previous steps
+
+Even though the classifier is different, the steps for training the model and choosing the best one using cross validation are pretty much the same, so we will skip that part and just compare the results.
+
+### Testing the bagging classifier
+
+Our final model has 250 decision trees that are trained using 45% of the training dataset and 45% of the total amount of features, that's why each tree is able to learn different patterns than others.
+
+Test accuracy results:
+
+![]()
+
+
