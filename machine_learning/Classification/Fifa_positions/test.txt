@@ -1,0 +1,28 @@
+[Command: python -u C:\Users\ZBook15\Documents\Artificial_Intelligence\machine_learning\Classification\Fifa_positions\fifa_train.py]
+C:\Users\ZBook15\AppData\Local\Programs\Python\Python36\lib\site-packages\sklearn\externals\joblib\externals\cloudpickle\cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+-----HIGHEST ACCURACY MODELS-----
+(0.8441419394310186, 'max_depth = 8', 'criterion = gini')
+(0.8424900581217496, 'max_depth = 7', 'criterion = gini')
+(0.8413276231263384, 'max_depth = 8', 'criterion = entropy')
+(0.8409299479963291, 'max_depth = 9', 'criterion = gini')
+(0.8382379932701133, 'max_depth = 6', 'criterion = gini')
+(0.8378403181401041, 'max_depth = 10', 'criterion = gini')
+(0.8378097277454879, 'max_depth = 9', 'criterion = entropy')
+(0.8363107984092994, 'max_depth = 7', 'criterion = entropy')
+(0.8347506882838788, 'max_depth = 10', 'criterion = entropy')
+(0.8335270724992352, 'max_depth = 11', 'criterion = gini')
+
+-----LESS OVERFITTED MODELS-----
+(0.004599387733509097, 'max_depth = 3', 'criterion = gini')
+(0.005531203816962371, 'max_depth = 3', 'criterion = entropy')
+(0.007515105791430443, 'max_depth = 5', 'criterion = gini')
+(0.0078021791198866096, 'max_depth = 4', 'criterion = gini')
+(0.008712410654591806, 'max_depth = 4', 'criterion = entropy')
+(0.011459890901278413, 'max_depth = 5', 'criterion = entropy')
+(0.016013458556940918, 'max_depth = 6', 'criterion = entropy')
+(0.016335970321748404, 'max_depth = 6', 'criterion = gini')
+(0.02793120862756755, 'max_depth = 7', 'criterion = entropy')
+(0.03122112437786804, 'max_depth = 7', 'criterion = gini')
+Done
+[Finished in 32.155s]
