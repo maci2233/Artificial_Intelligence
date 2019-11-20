@@ -90,9 +90,9 @@ The average accuracy for the validation set is also higher (around 84%) because 
 We ended up with 3 final models that will be used for testing, we are going to save them and then make the testing in a separate file.
 The reason for doing this is simple, training takes time, so having to train the models each time we want to test them makes no sense at all since it is very time consuming
 
-### Testing the decision tree
+### Testing the decision trees
 
-The testing is pretty straightforward. For each of the 3 decision trees that we chose at the end, we will make a prediction for each sample in the test set, then we will compare the predicted class with the real class and get the test accuracy to see how well the models perform
+Testing is pretty straightforward. For each of the 3 decision trees that we chose at the end, we will make a prediction for each sample in the test set, then we will compare all the predicted classes with the real classes and get the test accuracy to see how well the models perform.
 
 Test accuracy results:
 
@@ -118,5 +118,5 @@ Test accuracy results:
 
 ![Figure 5](https://github.com/maci2233/Artificial_Intelligence/blob/master/machine_learning/Classification/Fifa_positions/bagging_tests.PNG)
 
-We just achieved an 88% accuracy with the bagging classifier, which is higher than the individual decision tree. Depending on the problem, sometimes one approach is better than the other so it is a good idea to try several models (if time allows it) and nost just stick to one and compare their results.
+We just achieved an 88% accuracy with the bagging classifier, which is higher than the individual decision tree. Depending on the problem, sometimes one approach is better than the other so it is a good idea to try several models (if time allows it) and not just stick to one and compare their results.
 
