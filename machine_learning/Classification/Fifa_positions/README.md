@@ -55,14 +55,29 @@ This is the result of the cross-valition using a decision tree with no max depth
 
 ![Figure 1](https://github.com/maci2233/Artificial_Intelligence/blob/master/machine_learning/Classification/Fifa_positions/CV_no_max_depth.png)
 
-As we can see, the training accuracy for each fold is pretty much 100%, but thanks to the cross-validation results we know that the model is overfitted, since the accuracy for the validation sets is around 82% in average. To solve this we are going to create several trees with different hyper-parameter values and compare their cross-validation results. The two hyper-parameters that will be modified
-are the tree's maximum depth and its criterion. There are a lot more things that can be modified but we will play around with only these
-two values to keep it simple.
+As we can see, the training accuracy for each fold is pretty much 100%, but thanks to the cross-validation results we know that the model is overfitted, since the accuracy for the validation sets is around 81% in average. To solve this we are going to create several trees with different hyper-parameter values and compare their cross-validation results. The two hyper-parameters that will be modified are:
+* max_depth: Limits the amount of features that the tree can use to determine a class
+* criterion: There are some player attributes that are more important than others to know the position. The criterion is the strategy
+that the tree will use to determine which attributes are the most important
+
+There are a lot more things that can be modified but we will play around with only these 2 values to keep it simple.
+
+### Selecting the best models
 
 All the results are going to be stored and then we are going to choose the best models according to 2 different categories:
 1. Accuracy: We want to know which models performed better on average against unseen data
-2: Overfit Score: We will check this value to know which models have similar accuracies between the training and validation sets. In order to get this value or each model we just do this operation: ((sum of training_scores) - (sum of validation_scores)) / (number of folds) this way we will know on average how close the training accuracy is from the validation accuracy
+2: Overfit Score: We will check this value to know which models have similar accuracies between the training and validation sets. In order to get this value for each model we just do this operation: ((sum of training_scores) - (sum of validation_scores)) / (number of folds) this way we will know on average how close the training accuracy is from the validation accuracy.
 
-This are the results obtained:
+These are the results obtained:
 
+![Figure 2](https://github.com/maci2233/Artificial_Intelligence/blob/master/machine_learning/Classification/Fifa_positions/CV_results.png)
+
+As we can see, there are 3 Decision trees that appear in both categories:
+* max_depth = 7, criterion = "gini"
+* max_depth = 6, criterion = "gini"
+* max_depth = 7, criterion = "entropy"
+
+This is the result obtained doing cross-validation for one of these decision trees:
+
+![]()
 PENDIENTE
