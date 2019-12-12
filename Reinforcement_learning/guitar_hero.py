@@ -1,4 +1,5 @@
 import pygame
+import pygame.freetype
 from pynput.keyboard import Controller
 import random
 import numpy as np
@@ -54,7 +55,7 @@ def check_key(key): #key is the number that was pressed (1, 2, 3, 4)
     try:
         note = notes[k][0]
         bar_2 = bar.height//2
-        if note.y >= bar.y + bar_2 - 5 and note.y <= bar.y + bar_2 + 5:
+        if note.y >= bar.y + bar_2 - note_press_pixel_error and note.y <= bar.y + bar_2 + note_press_pixel_error:
             notes[k].pop(0)
             return True
         else:
@@ -69,7 +70,9 @@ def get_observation():
     for i, notes_t in enumerate(notes): #iterate for all lists of note types
         if len(notes_t) > 0:
             note = notes_t[0]
-            if note.y >= bar.y and note.y <= bar.y + bar.height:
+            #if note.y >= bar.y and note.y <= bar.y + bar.height:
+            bar_2 = bar.height//2
+            if note.y >= bar.y + bar_2 - note_press_pixel_error and note.y <= bar.y + bar_2 + note_press_pixel_error:
                 obs_res[i] = 1
     return obs_res
 
@@ -101,6 +104,7 @@ def action(ind, obs): #IND IS THE INDEX HIGHEST Q-VALUE CORRESPONDING TO THE CUR
 
 
 pygame.init()
+GAME_FONT = pygame.freetype.SysFont('Consolas', 15)
 colors = [(255, 20, 0),(255, 255, 30), (20, 255, 0), (20, 0, 255)] #NOTE COLORS THAT WILL FALL
 notes_pos_x = [100, 200, 300, 400] #THE POSITION IN X OF THE NOTES THAT WILL FALL
 bar_colors = [(255, 80, 80),(240, 250, 90), (60, 230, 90), (60, 110, 220)] #NOTE COLORS INSIDE THE BAR
@@ -108,23 +112,22 @@ bar_color_pressed = (255, 80, 200) #BAR NOTE COLOR CHANGES WHEN PRESSED (FUNCTIO
 bg_color = (0, 0, 0)
 width = 500
 height = 800
-NEW_NOTE_EVERY = 100 #EVERY 200 i's WE ADD A NEW NOTE, A LOWER VALUE MEANS NOTE APPEAR FASTER
+NEW_NOTE_EVERY = 100 #EVERY X iterations WE ADD A NEW NOTE, A LOWER VALUE MEANS NOTES APPEAR FASTER
 NOTE_TYPES = 4 #THERE ARE 4 TYPE OF NOTES
-EPISODES = 10 #ITERATIONS TO TRAIN THE AGENT
+EPISODES = 12 #ITERATIONS TO TRAIN THE AGENT
 KEY_PRESSED_WRONG_REWARD = -10 #REWARD FOR HITTING A KEY WHEN IT WAS NOT NEEDED
 KEY_PRESSED_CORRECT_REWARD = 5 #REWARD FOR HITTING A KEY WHEN IT WAS NEEDED
 KEY_NOT_PRESSED_CORRECT_REWARD = 0 #REWARD FOR HITTING NOTHING WHEN IT WAS NOT NEEDED
 KEY_NOT_PRESSED_WRONG_REWARD = -10 #REWARD FOR HITTING NOTHING WHEN IT WAS NEEDED
-SHOW_EVERY = 1 #EVERY 1000 ITERATIONS A VIDEO OF THE AGENT PLAYING WILL APPEAR
-#LEARNING_RATE = 0.005
-LEARNING_RATE = 0.001
+note_press_pixel_error = 1 #We use this constanst to define a +- limit in the pixel error to have a correct note pressed
+SHOW_EVERY = 1 #EVERY X ITERATIONS A VIDEO OF THE AGENT PLAYING WILL APPEAR
+LEARNING_RATE = 0.05
 DISCOUNT = 0.9
 
 action_list = ['', '1', '2', '3', '4', '12', '13', '14', '23', '24', '34']
 notes = [[] for _ in range(NOTE_TYPES)] #LIST OF NOTES, EVERY LIST INSIDE WILL CONTAIN ONLY ONE TYPE OF NOTES
 bar = Bar(width, 100, 650)
 #bar = Bar(width, 60)
-
 keyboard = Controller()
 
 load_q_table = False #If we already trained an agent we can set this to True and load the q_table
@@ -165,7 +168,7 @@ for episode in range(EPISODES):
     #This i represents how many iterations the EPISODE will last
     #Increasing this value means the agent will have more time to
     #learn during each EPISODE
-    for i in range(4000):
+    for i in range(6000):
         delete_notes() #here we delete the notes that have passed the window limit
         obs = tuple(get_observation())
         next_action = np.argmax(q_table[obs])
@@ -180,7 +183,7 @@ for episode in range(EPISODES):
         new_q  = (1 - LEARNING_RATE) * curr_q_val + LEARNING_RATE * (reward + DISCOUNT * max_future_q)
         q_table[obs][next_action] = new_q
 
-        clock.tick(400)
+        clock.tick(2000)
         for event in pygame.event.get(): #All the events that are happening (list)
             if event.type == pygame.QUIT:
                 run = False
@@ -195,9 +198,14 @@ for episode in range(EPISODES):
                 if event.key == pygame.K_4:
                     check_key(4)
         if i % NEW_NOTE_EVERY == 0:
+            notes_created = []
             for _ in range(np.random.randint(1, 3)):
-                note = Note()
-                notes[note.type].append(note)
+                while True:
+                    note = Note()
+                    if note.type in notes_created:
+                        continue
+                    notes[note.type].append(note)
+                    break
         screen.fill(bg_color)
         bar.draw()
         for notes_col in notes:
@@ -207,12 +215,13 @@ for episode in range(EPISODES):
         #if i == 4000:
             #run = False
         if show:
+            GAME_FONT.render_to(screen, (100, 22), f"Mistakes: {episode_mistake}        Reward: {episode_reward}", (255, 255, 255))
             pygame.display.flip()
         if not run:
             break
     if show:
         pygame.quit()
-    print(f"episode reward {episode+1}: ", episode_reward)
+    print(f"episode  {episode+1}: reward -> {episode_reward}\tmistakes -> {episode_mistake}")
     episode_rewards.append(episode_reward)
     episode_mistakes.append(episode_mistake)
 
