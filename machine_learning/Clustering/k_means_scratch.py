@@ -19,7 +19,10 @@ def init_centroids(K, data):
     centroids = []
     n = len(data)
     for _ in range(K):
-        rand_point = np.random.randint(0, n)
+        while True: #We use this to prevent choosing the same random point for more than 1 centroid
+            rand_point = np.random.randint(0, n)
+            if [data[rand_point][0], data[rand_point][1]] not in centroids:
+                break
         centroids.append([data[rand_point][0], data[rand_point][1]])
     return centroids
 
@@ -67,7 +70,6 @@ K = 3  #Number of clusters
 epochs = 8
 plot_epochs = False
 centroids = np.array(init_centroids(K, data))
-
 '''
 plt.scatter(data[:, 0], data[:, 1])
 plt.scatter(centroids[:,0], centroids[:,1], marker='x', s=220)
