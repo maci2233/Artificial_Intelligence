@@ -15,7 +15,7 @@ In order to determine a player's position based on his attributes we only need t
 The rest of the columns given in the data.csv are useless for us since they don't influence the output at all, therefore we are going to drop those columns.<br>
 There's one more thing to do, the position column has the exact player's position, but for simplicity, we will only determine if the player
 is an attacker, a midfielder, a defender, or a goalkeeper. For example, the positions LS, RS, ST, LW, RW, RF, LF and CF will be combined
-in one single class that represents that attackers, and this process is repeated for the positions that represent midfielder, defender
+in one single class that represents attackers, and this process is repeated for the positions that represent midfielder, defender
 and goalkeeper.<br>
 At the end we will have the following classes represented with numerical values:
 * Attacker - 0
