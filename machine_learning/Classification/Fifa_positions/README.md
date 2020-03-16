@@ -12,7 +12,7 @@ The source codes for training and testing the models are available [here](https:
 ### Data Pre-processing
 
 In order to determine a player's position based on his attributes we only need the 2 things that were just mentioned (position, attributes).
-The rest of the columns given in the data.csv are useless for us since it does not influence the output at all, therefore we are going to drop those columns.<br>
+The rest of the columns given in the data.csv are useless for us since they don't influence the output at all, therefore we are going to drop those columns.<br>
 There's one more thing to do, the position column has the exact player's position, but for simplicity, we will only determine if the player
 is an attacker, a midfielder, a defender, or a goalkeeper. For example, the positions LS, RS, ST, LW, RW, RF, LF and CF will be combined
 in one single class that represents that attackers, and this process is repeated for the positions that represent midfielder, defender
