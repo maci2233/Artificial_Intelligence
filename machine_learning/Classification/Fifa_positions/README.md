@@ -40,7 +40,7 @@ receive as an input a player's attribute and decide where to go next based on th
 
 Cross-validation is a very useful technique used to split the training dataset in two, so that one part trains
 the model, and the other one validates it. This validation step is pretty much testing the model and
-measuring the and accuracy in our case, but the very important difference is that this testing is done
+measuring the accuracy, but the very important difference is that this testing is done
 without using the testing dataset. This process is repeated for any given folds, so at the end when we finish
 validating, we will have tested our model several times against unseen data.
 
