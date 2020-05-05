@@ -21,10 +21,11 @@ train_end = '2019-12-31'
 test_start = '2020-01-01'
 train = df.loc[:train_end]
 test = df.loc[test_start:]
+
 history = [x for x in train['Close']]
 
-model = ARIMA(history, order=(1,0,3))
-model_fit = model.fit(disp=0)
+model_arima = ARIMA(history, order=(3,0,1))
+model_fit = model_arima.fit(disp=0)
 # plt.plot(history, color='red', label='real')
 # plt.plot(model_fit.fittedvalues, color='blue', label='predicted')
 # print(model_fit.resid[-1])
@@ -67,16 +68,32 @@ predictions = []
 
 x_test = np.array([y_train[-window_width:]])
 
-for i in range(1):#len(test)):
+for i in range(len(test)):
     yhat_arima = model_fit.forecast()[0][0]
     x_test_rs = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-    forecast = model.predict(x_test_rs)
-    yhat_lstm = scaler.inverse_transform(forecast)[0][0]
-    predictions.append(yhat_arima + yhat_lstm)
-    #falta calcular el residual y usarlo para la siguiente prediccion de lstm (x_test)
+    resid_forecast = model.predict(x_test_rs)
+    yhat_lstm = scaler.inverse_transform(resid_forecast)[0][0]
+    prediction = yhat_arima + yhat_lstm
+    predictions.append(prediction)
+    y_true = test.iloc[i].values[0]
+    residual = scaler.transform(np.array([y_true - yhat_arima]).reshape(-1, 1))[0][0]
+    x_test = np.append(x_test[0][1:], np.array([residual]))
+    x_test = np.array([x_test])
+    history.append(y_true)
+    model_arima = ARIMA(history, order=(3,0,1))
+    model_fit = model_arima.fit(disp=0)
 
+df_forecast = DataFrame(predictions, index=test.index, columns=['Close'])
+#df_arimafitted = DataFrame(model_fit.fittedvalues, index=train.index, columns=['Close'])
 
+#print(rmse(test_orig, df_forecast))
+print(rmse(test, df_forecast))
 
+plt.plot(train, label="True Train")
+#plt.plot(df_arimafitted, label="Arima train")
+plt.plot(pd.concat([train.tail(1), test], axis=0), label="True Test")
+plt.plot(pd.concat([train.tail(1), df_forecast], axis=0), label="Arima-LSTM Test")
+plt.show()
 
 
 
