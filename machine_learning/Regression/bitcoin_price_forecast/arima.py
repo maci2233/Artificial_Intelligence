@@ -18,8 +18,8 @@ predictions = list()
 history = [x for x in train['Close']]
 
 for i in range(n_test):
-    if i % 7 == 0: #REENTRENANDO CADA DIA con i % 1
-        model = ARIMA(history, order=(1,0,3)) #FALTA CHECAR ESTE PEDO Y VER COMO JALA Y TODO ESO
+    if i % 7 == 0:
+        model = ARIMA(history, order=(1,0,3))
         model_fit = model.fit(disp=0)
     yhat = model_fit.forecast()[0][0]
     predictions.append(yhat)
