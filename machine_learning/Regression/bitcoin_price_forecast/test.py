@@ -1,3 +1,32 @@
+tests = ['alan', '(mac()()ias)', 'se (la) ((come))', 'al((an)) (saicam) se ((la)) (c)(o)(m)(e)']
+
+
+def invert_strings(string):
+    stack = list()
+    index = -1
+    res = ''
+    for char in string:
+        if char == '(':
+            stack.append('')
+            index += 1
+        elif char == ')':
+            inv = stack[index][::-1]
+            if index > 0:
+                stack[index-1] += inv
+            else:
+                res += inv
+            stack.pop()
+            index -= 1
+        elif index == -1:
+            res += char
+        else:
+            stack[index] += char
+    return res
+
+
+for test in tests:
+    print(invert_strings(test))
+input()
 import pandas as pd
 from pandas import DataFrame
 
