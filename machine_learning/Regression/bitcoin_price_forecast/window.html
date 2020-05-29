@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+      table, th, td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <br><br><br>
+    <div class="container">
+      <table class="striped centered" style="width: 300px;">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Close</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mar 14, 2015</td>
+            <td>$281.88</td>
+          </tr>
+          <tr>
+            <td>Mar 15, 2015</td>
+            <td>$286.39</td>
+          </tr>
+          <tr>
+            <td>Mar 16, 2015</td>
+            <td>$290.59</td>
+          </tr>
+          <tr>
+            <td>Mar 17, 2015</td>
+            <td>$285.50</td>
+          </tr>
+          <tr>
+            <td>Mar 18, 2015</td>
+            <td>$256.29</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <table class="striped centered" style="width: 300px;">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Close-2</th>
+            <th>Close-1</th>
+            <th>Close</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mar 14, 2015</td>
+            <td>?</td>
+            <td>?</td>
+            <td>$281.88</td>
+          </tr>
+          <tr>
+            <td>Mar 15, 2015</td>
+            <td>?</td>
+            <td>$281.88</td>
+            <td>$286.39</td>
+          </tr>
+          <tr>
+            <td>Mar 16, 2015</td>
+            <td>$281.88</td>
+            <td>$286.39</td>
+            <td>$290.59</td>
+          </tr>
+          <tr>
+            <td>Mar 17, 2015</td>
+            <td>$286.39</td>
+            <td>$290.59</td>
+            <td>$285.50</td>
+          </tr>
+          <tr>
+            <td>Mar 18, 2015</td>
+            <td>$290.59</td>
+            <td>$285.50</td>
+            <td>$256.29</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br><br><br>
+
+        <table class="striped centered" style="width: 300px;">
+          <tr>
+            <th colspan="3" class="center">Bitcoin</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>RMSE</td>
+            <td>MAE</td>
+          </tr>
+          <tr>
+            <td>ARIMA</td>
+            <td>426.91</td>
+            <td>274.30</td>
+          </tr>
+          <tr>
+            <td>LSTM</td>
+            <td>603.45</td>
+            <td>481.96</td>
+          </tr>
+          <tr>
+            <td>ARIMA-LSTM</td>
+            <td>391.39</td>
+            <td>244.72</td>
+          </tr>
+        </table>
+
+      <br><br><br>
+
+        <table class="striped centered" style="width: 300px;">
+          <tr>
+            <th colspan="3" class="center">Litecoin</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>RMSE</td>
+            <td>MAE</td>
+          </tr>
+          <tr>
+            <td>ARIMA</td>
+            <td>3.40</td>
+            <td>2.30</td>
+          </tr>
+          <tr>
+            <td>LSTM</td>
+            <td>4.20</td>
+            <td>3.03</td>
+          </tr>
+          <tr>
+            <td>ARIMA-LSTM</td>
+            <td>3.03</td>
+            <td>2.01</td>
+          </tr>
+        </table>
+
+      <br><br><br><br>
+
+    </div>
+
+
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</html>
