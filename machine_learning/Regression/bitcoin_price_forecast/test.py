@@ -1,52 +1,68 @@
-tests = ['alan', '(mac()()ias)', 'se (la) ((come))', 'al((an)) (saicam) se ((la)) (c)(o)(m)(e)']
-
-
-def invert_strings(string):
-    stack = list()
-    index = -1
-    res = ''
-    for char in string:
-        if char == '(':
-            stack.append('')
-            index += 1
-        elif char == ')':
-            inv = stack[index][::-1]
-            if index > 0:
-                stack[index-1] += inv
-            else:
-                res += inv
-            stack.pop()
-            index -= 1
-        elif index == -1:
-            res += char
-        else:
-            stack[index] += char
-    return res
-
-
-for test in tests:
-    print(invert_strings(test))
-input()
+from utils import *
 import pandas as pd
+from pandas import read_csv, read_html
 from pandas import DataFrame
+import matplotlib.pyplot as plt
+from statsmodels.tsa.arima_model import ARIMA
 
-values = ['0.39 14.63', '0.26 20.12', '0.20 0.4', '.2622 .30']
 
-df = DataFrame(values, columns=['%B'])
+#df = read_csv('BTC-USD.csv', usecols=['Date', 'Close'], index_col=0)
 
-nums1, nums2 = list(), list()
-for vals in df['%B'].values:
-    nums = [float(i) for i in vals.split()]
-    nums1.append(nums[0])
-    nums2.append(nums[1])
+#Bitcoin 2017 ->
+#df = read_html('https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20170101&end=20200523')[2][::-1]
+#Bitecoin All time
+#df = read_html('https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20130428&end=20200523')[2][::-1]
+#Litecoin 2017 ->
+#df = read_html('https://coinmarketcap.com/currencies/litecoin/historical-data/?start=20170101&end=20200523')[2][::-1]
+#Litecoin All time
 
-df['%B'] = nums1
-df.insert(list(df.columns).index('%B')+1, '%B2', nums2)
 
-print(df)
 
-tmp = df.iloc[-1]
-df = df.shift(1)
-df.iloc[0] = tmp
+# df.drop(columns=['Open*', 'Low', 'High', 'Volume', 'Market Cap'],  axis=1, inplace=True)
+# df.rename(columns={'Close**': 'Close'}, inplace=True)
+# df['Date'] = df.apply(parse_date, axis=1)
+# df = df.set_index('Date')
+# df.index = pd.to_datetime(df.index)
 
-print(df)
+df = read_csv('Bitcoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
+order = (1,1,3)
+#df = read_csv('Litecoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
+#order = (1,1,2)
+
+df.index = pd.to_datetime(df.index)
+train_end = '2019-12-31'
+test_start = '2020-01-01'
+train = df.loc[:train_end]
+test = df.loc[test_start:]
+n_test = len(test)
+
+
+
+predictions = list()
+history = [x for x in train['Close']]
+
+
+for i in range(n_test):
+    if i % 2 == 0:
+        model = ARIMA(history, order=order)
+        model_fit = model.fit(disp=0)
+    yhat = model_fit.forecast()[0][0]
+    predictions.append(yhat)
+    new_obs = test.iloc[i].values[0]
+    history.append(new_obs)
+
+df_forecast = DataFrame(predictions, index=test.index, columns=['Close'])
+
+print("rmse = ", rmse(test, df_forecast))
+print("mae = ", mae(test, df_forecast))
+plot_results(train, test, df_forecast)
+
+
+
+
+
+
+
+
+
+#Done
