@@ -31,7 +31,7 @@ import numpy as np
 # df = df.set_index('Date')
 # df.index = pd.to_datetime(df.index)
 
-crypto = "bi"
+crypto = "li"
 
 if crypto == "bi":
     df = read_csv('Bitcoin-2017.csv', usecols=['Date', 'Close'], index_col=0)

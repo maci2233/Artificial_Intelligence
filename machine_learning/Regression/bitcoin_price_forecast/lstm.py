@@ -29,8 +29,8 @@ import matplotlib.pyplot as plt
 # df = df.set_index('Date')
 # df.index = pd.to_datetime(df.index)
 
-df = read_csv('Bitcoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
-#df = read_csv('Litecoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
+#df = read_csv('Bitcoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
+df = read_csv('Litecoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
 
 df.index = pd.to_datetime(df.index)
 train_end = '2019-12-31'

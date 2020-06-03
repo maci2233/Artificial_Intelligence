@@ -1,4 +1,3 @@
-#import os;import sys;os.system("python test.py");sys.exit(0);
 from utils import *
 import pandas as pd
 from pandas import read_csv
@@ -28,10 +27,10 @@ from statsmodels.tsa.arima_model import ARIMA
 # df.index = pd.to_datetime(df.index)
 
 
-df = read_csv('Bitcoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
-order = (1,1,3)
-# df = read_csv('Litecoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
-# order = (1,1,2)
+#df = read_csv('Bitcoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
+#order = (1,1,3)
+df = read_csv('Litecoin-2017.csv', usecols=['Date', 'Close'], index_col=0)
+order = (1,1,2)
 
 df.index = pd.to_datetime(df.index)
 train_end = '2019-12-31'
@@ -48,9 +47,8 @@ history = [x for x in train['Close']]
 
 
 for i in range(n_test):
-    if i % 2 == 0:
-        model = ARIMA(history, order=order)
-        model_fit = model.fit(disp=0)
+    model = ARIMA(history, order=order)
+    model_fit = model.fit(disp=0)
     yhat = model_fit.forecast()[0][0]
     predictions.append(yhat)
     new_obs = test.iloc[i].values[0]
